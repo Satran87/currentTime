@@ -38,7 +38,7 @@ public:
 
 	void SetFont()
 	{
-		HFONT hFont = CreateFont(36, 10, 0, 0, FW_NORMAL, TRUE, FALSE, FALSE,
+		HFONT hFont = CreateFont(56, 20, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
 			DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
 			CLIP_DEFAULT_PRECIS, PROOF_QUALITY,
 			DEFAULT_PITCH | FF_DONTCARE, L"Times New Roman");

@@ -212,7 +212,9 @@
     <None Include="res\currentTime.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="currentTime.ico" />
     <Image Include="res\currentTime.ico" />
+    <Image Include="Visavis.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

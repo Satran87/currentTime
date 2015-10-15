@@ -56,7 +56,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="currentTime.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
     <Image Include="res\currentTime.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Visavis.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

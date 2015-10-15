@@ -53,6 +53,7 @@ BOOL CcurrentTimeDlg::OnInitDialog()
 	// TODO: добавьте дополнительную инициализацию
 	SetFont();
 	CheckDlgButton(IDC_CHECK_TOP, BST_CHECKED);
+	StayTopMost();
 	return TRUE;  // возврат значения TRUE, если фокус не передан элементу управления
 }
 
