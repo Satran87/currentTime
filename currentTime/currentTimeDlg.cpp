@@ -15,7 +15,7 @@
 
 // диалоговое окно CcurrentTimeDlg
 
-CDC m_pDC;
+
 CcurrentTimeDlg::CcurrentTimeDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_CURRENTTIME_DIALOG, pParent)
 {
@@ -34,9 +34,6 @@ ON_WM_TIMER()
 ON_WM_CREATE()
 ON_WM_CLOSE()
 ON_BN_CLICKED(IDC_CHECK_TOP, &CcurrentTimeDlg::OnBnClickedCheck1)
-ON_WM_ERASEBKGND()
-ON_WM_DRAWITEM()
-ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 
@@ -44,7 +41,6 @@ END_MESSAGE_MAP()
 
 BOOL CcurrentTimeDlg::OnInitDialog()
 {
-	CreateCompatibleDC(m_pDC);
 	CDialogEx::OnInitDialog();
 
 	// Задает значок для этого диалогового окна.  Среда делает это автоматически,
@@ -58,7 +54,6 @@ BOOL CcurrentTimeDlg::OnInitDialog()
 	SetFont();
 	CheckDlgButton(IDC_CHECK_TOP, BST_CHECKED);
 	StayTopMost();
-	GetDlgItem(IDC_STATIC_My2)->ShowWindow(FALSE);
 	return TRUE;  // возврат значения TRUE, если фокус не передан элементу управления
 }
 
@@ -70,6 +65,7 @@ void CcurrentTimeDlg::OnPaint()
 	if (IsIconic())
 	{
 		CPaintDC dc(this); // контекст устройства для рисования
+
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
 		// Выравнивание значка по центру клиентского прямоугольника
@@ -87,7 +83,6 @@ void CcurrentTimeDlg::OnPaint()
 	{
 		CDialogEx::OnPaint();
 	}
-	
 }
 
 // Система вызывает эту функцию для получения отображения курсора при перемещении
@@ -101,12 +96,13 @@ HCURSOR CcurrentTimeDlg::OnQueryDragIcon()
 
 
 
+
 void CcurrentTimeDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	SYSTEMTIME  curTime;
 	::GetLocalTime(&curTime);
 	CString StrMilli;
-	StrMilli.Format(L"%03d", curTime.wMilliseconds);
+	StrMilli.Format(L"%d", curTime.wMilliseconds);
 	CString StrSec;
 	StrSec.Format(L"%02d", curTime.wSecond);
 	CString StrMin;
@@ -114,7 +110,8 @@ void CcurrentTimeDlg::OnTimer(UINT_PTR nIDEvent)
 	CString StrHours;
 	StrHours.Format(L"%02d", curTime.wHour);
 	CString separator (":");
-	CString resultString=StrHours + separator + StrMin + separator + StrSec + separator + StrMilli;
+	CString resultString(StrHours + separator + StrMin + separator + StrSec + separator + StrMilli);
+	///////////////////////
 	SetDlgItemText(IDC_STATIC_My, resultString);
 }
 

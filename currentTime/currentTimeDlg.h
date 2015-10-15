@@ -31,6 +31,9 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 public:
+//	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+//	afx_msg void OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
+//	afx_msg void OnEnable(BOOL bEnable);
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 
 	void SetFont()
@@ -41,7 +44,6 @@ public:
 			DEFAULT_PITCH | FF_DONTCARE, L"Times New Roman");
 		CFont *pFont = CFont::FromHandle(hFont);
 		GetDlgItem(IDC_STATIC_My)->SetFont(pFont);
-		GetDlgItem(IDC_STATIC_My2)->SetFont(pFont);
 	}
 
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -50,5 +52,4 @@ public:
 	void StayTopMost();
 	void StayLikeOther();
 	afx_msg void OnBnClickedCheck1();
-
 };
