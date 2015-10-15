@@ -52,4 +52,5 @@ public:
 	void StayTopMost();
 	void StayLikeOther();
 	afx_msg void OnBnClickedCheck1();
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };

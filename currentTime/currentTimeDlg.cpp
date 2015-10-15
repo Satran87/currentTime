@@ -15,7 +15,7 @@
 
 // диалоговое окно CcurrentTimeDlg
 
-
+CDC m_pDC;
 CcurrentTimeDlg::CcurrentTimeDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_CURRENTTIME_DIALOG, pParent)
 {
@@ -34,6 +34,9 @@ ON_WM_TIMER()
 ON_WM_CREATE()
 ON_WM_CLOSE()
 ON_BN_CLICKED(IDC_CHECK_TOP, &CcurrentTimeDlg::OnBnClickedCheck1)
+ON_WM_ERASEBKGND()
+ON_WM_DRAWITEM()
+ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 
@@ -41,6 +44,7 @@ END_MESSAGE_MAP()
 
 BOOL CcurrentTimeDlg::OnInitDialog()
 {
+	CreateCompatibleDC(m_pDC);
 	CDialogEx::OnInitDialog();
 
 	// Задает значок для этого диалогового окна.  Среда делает это автоматически,
@@ -62,10 +66,24 @@ BOOL CcurrentTimeDlg::OnInitDialog()
 //  это автоматически выполняется рабочей областью.
 void CcurrentTimeDlg::OnPaint()
 {
+	/////
+	//CDC pDC;
+	//CRect rect1;
+	//GetClientRect(&rect1);
+	//
+	//CreateCompatibleDC(pDC);
+	//auto bitmap=CreateCompatibleBitmap(pDC, rect1.Width(), rect1.Height());
+	//auto pOldBmp = pDC.SelectObject(bitmap);
+	//pDC.FillSolidRect(rect1, pDC.GetBkColor());
+	//m_pDC.BitBlt(rect1.left, rect1.top, rect1.Width(), rect1.Height(), &pDC, rect1.left, rect1.top, SRCCOPY);
+	//pDC.SelectObject(pOldBmp);
+	/////
 	if (IsIconic())
 	{
 		CPaintDC dc(this); // контекст устройства для рисования
+		//
 
+		//
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
 		// Выравнивание значка по центру клиентского прямоугольника
@@ -96,13 +114,13 @@ HCURSOR CcurrentTimeDlg::OnQueryDragIcon()
 
 
 
-
+bool useSecond = false;
 void CcurrentTimeDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	SYSTEMTIME  curTime;
 	::GetLocalTime(&curTime);
 	CString StrMilli;
-	StrMilli.Format(L"%d", curTime.wMilliseconds);
+	StrMilli.Format(L"%03d", curTime.wMilliseconds);
 	CString StrSec;
 	StrSec.Format(L"%02d", curTime.wSecond);
 	CString StrMin;
@@ -111,7 +129,11 @@ void CcurrentTimeDlg::OnTimer(UINT_PTR nIDEvent)
 	StrHours.Format(L"%02d", curTime.wHour);
 	CString separator (":");
 	CString resultString(StrHours + separator + StrMin + separator + StrSec + separator + StrMilli);
-	///////////////////////
+	/////////////////////// создать 2 переменные, отрисовать в одну потом показать и скрыть первую
+	if(useSecond)
+	{
+		useSecond = true;
+	}
 	SetDlgItemText(IDC_STATIC_My, resultString);
 }
 
@@ -122,7 +144,7 @@ int CcurrentTimeDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	
 
-	if (!SetTimer(1, 1, NULL))
+	if (!SetTimer(1, 5, NULL))
 
 	return 0;
 }
@@ -166,4 +188,13 @@ void CcurrentTimeDlg::OnBnClickedCheck1()
 	{
 		StayLikeOther();
 	}
+}
+
+
+
+BOOL CcurrentTimeDlg::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: Add your message handler code here and/or call default
+	return true;
+	return CDialogEx::OnEraseBkgnd(pDC);
 }
