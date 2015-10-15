@@ -58,6 +58,7 @@ BOOL CcurrentTimeDlg::OnInitDialog()
 	SetFont();
 	CheckDlgButton(IDC_CHECK_TOP, BST_CHECKED);
 	StayTopMost();
+	GetDlgItem(IDC_STATIC_My2)->ShowWindow(FALSE);
 	return TRUE;  // возврат значения TRUE, если фокус не передан элементу управления
 }
 
@@ -66,24 +67,9 @@ BOOL CcurrentTimeDlg::OnInitDialog()
 //  это автоматически выполняется рабочей областью.
 void CcurrentTimeDlg::OnPaint()
 {
-	/////
-	//CDC pDC;
-	//CRect rect1;
-	//GetClientRect(&rect1);
-	//
-	//CreateCompatibleDC(pDC);
-	//auto bitmap=CreateCompatibleBitmap(pDC, rect1.Width(), rect1.Height());
-	//auto pOldBmp = pDC.SelectObject(bitmap);
-	//pDC.FillSolidRect(rect1, pDC.GetBkColor());
-	//m_pDC.BitBlt(rect1.left, rect1.top, rect1.Width(), rect1.Height(), &pDC, rect1.left, rect1.top, SRCCOPY);
-	//pDC.SelectObject(pOldBmp);
-	/////
 	if (IsIconic())
 	{
 		CPaintDC dc(this); // контекст устройства для рисования
-		//
-
-		//
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
 		// Выравнивание значка по центру клиентского прямоугольника
@@ -101,6 +87,7 @@ void CcurrentTimeDlg::OnPaint()
 	{
 		CDialogEx::OnPaint();
 	}
+	
 }
 
 // Система вызывает эту функцию для получения отображения курсора при перемещении
@@ -114,7 +101,6 @@ HCURSOR CcurrentTimeDlg::OnQueryDragIcon()
 
 
 
-bool useSecond = false;
 void CcurrentTimeDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	SYSTEMTIME  curTime;
@@ -128,12 +114,7 @@ void CcurrentTimeDlg::OnTimer(UINT_PTR nIDEvent)
 	CString StrHours;
 	StrHours.Format(L"%02d", curTime.wHour);
 	CString separator (":");
-	CString resultString(StrHours + separator + StrMin + separator + StrSec + separator + StrMilli);
-	/////////////////////// создать 2 переменные, отрисовать в одну потом показать и скрыть первую
-	if(useSecond)
-	{
-		useSecond = true;
-	}
+	CString resultString=StrHours + separator + StrMin + separator + StrSec + separator + StrMilli;
 	SetDlgItemText(IDC_STATIC_My, resultString);
 }
 
@@ -144,7 +125,7 @@ int CcurrentTimeDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	
 
-	if (!SetTimer(1, 5, NULL))
+	if (!SetTimer(1, 1, NULL))
 
 	return 0;
 }
@@ -188,13 +169,4 @@ void CcurrentTimeDlg::OnBnClickedCheck1()
 	{
 		StayLikeOther();
 	}
-}
-
-
-
-BOOL CcurrentTimeDlg::OnEraseBkgnd(CDC* pDC)
-{
-	// TODO: Add your message handler code here and/or call default
-	return true;
-	return CDialogEx::OnEraseBkgnd(pDC);
 }
